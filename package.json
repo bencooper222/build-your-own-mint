@@ -34,7 +34,7 @@
     "moment": "^2.24.0",
     "open": "^6.4.0",
     "plaid": "^2.15.0",
-    "twilio": "^3.33.3"
+    "twilio": "^3.33.4"
   },
   "devDependencies": {
     "prettier": "^1.18.2"
