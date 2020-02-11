@@ -35,7 +35,7 @@
     "moment": "^2.24.0",
     "open": "^6.4.0",
     "openpgp": "^4.9.0",
-    "plaid": "^2.15.0",
+    "plaid": "^4.1.0",
     "twilio": "^3.39.4"
   },
   "devDependencies": {
