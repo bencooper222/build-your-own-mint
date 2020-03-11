@@ -21,7 +21,7 @@
     "test-sheets": "node scripts/testSheets.js",
     "token-plaid": "node scripts/plaidServer.js",
     "token-sheets": "node scripts/getSheetsToken.js",
-    "sync-env": "node scripts/syncEnv.js"
+    "push-env": "ts-node scripts/pushEnv.ts"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
