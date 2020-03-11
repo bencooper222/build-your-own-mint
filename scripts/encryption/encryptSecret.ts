@@ -1,12 +1,14 @@
 require('dotenv').config();
-const openpgp = require('openpgp');
-const fs = require('fs');
+import * as openpgp from 'openpgp';
+import { readFileSync, writeFileSync } from 'fs';
 
 const { ACCOUNTS_PASSWORD } = process.env;
+if (!ACCOUNTS_PASSWORD) throw new Error('No ACCOUNTS_PASSWORD available!');
+
 const toReadPath = './accounts.secret.js';
 const toWritePath = './accounts.public.txt';
 
-const privateAccountContents = fs.readFileSync(toReadPath, {
+const privateAccountContents = readFileSync(toReadPath, {
   encoding: 'utf8',
 });
 
@@ -18,6 +20,6 @@ openpgp
   })
   .then(ciphertext => {
     const encrypted = ciphertext.data; // get raw encrypted packets as Uint8Array
-    fs.writeFileSync(toWritePath, encrypted);
+    writeFileSync(toWritePath, encrypted);
     console.log('Written encrypted to: ' + toWritePath);
   });
