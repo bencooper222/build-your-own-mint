@@ -1,4 +1,5 @@
 {
   "javascript.implicitProjectConfig.checkJs": true,
-  "deepscan.enable": true
+  "deepscan.enable": true,
+  "deepscan.ignorePatterns": ["node_modules"]
 }
