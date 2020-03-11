@@ -39,6 +39,8 @@
     "twilio": "^3.40.0"
   },
   "devDependencies": {
-    "prettier": "^1.19.1"
+    "@types/openpgp": "^4.4.8",
+    "prettier": "^1.19.1",
+    "typescript": "^3.8.3"
   }
 }

@@ -1,36 +1,26 @@
 version: 2
-
 jobs:
   build:
     docker:
       - image: circleci/node:12
-
     working_directory: ~/repo
-
     steps:
       - checkout
-
       - restore_cache:
           keys:
             - dependency-cache-{{ checksum "package-lock.json" }}
             - dependency-cache-
-
-      - run: npm install
-
+      - run: npm install & npm install -g ts-node
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
-
       - run: npm run get
-
 workflows:
   version: 2
-
   test:
     jobs:
       - build
-
   nightly:
     triggers:
       - schedule:

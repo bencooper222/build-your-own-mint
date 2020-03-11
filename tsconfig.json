@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noEmit": true,
+    "strictNullChecks": true
+  },
+  "include": ["lib/**/*.ts", "scripts/**/*.ts"],
+  "exclude": ["node_modules/**"]
+}
