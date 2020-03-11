@@ -26,17 +26,29 @@ const { send } = require('./lib/updaters/sms');
       'Running in public mode, suppressing logs with potentially private information.',
     );
 
-  const transactions = await fetchTransactions(isPrivate);
-  const balances = await fetchBalances(isPrivate);
-  if (isPrivate) console.table(balances, ['name']);
+  // fetch, transform, and update transactions
+  try {
+    const transactions = await fetchTransactions(isPrivate);
+    const transactionUpdates = transformTransactionsToUpdates(transactions);
+    await updateTransactions(transactionUpdates);
+  } catch (err) {
+    console.error(err);
+  }
 
-  const transactionUpdates = transformTransactionsToUpdates(transactions);
-  const balanceUpdates = transformBalancesToUpdates(balances);
-  const smsUpdates = transformBalancesToSMSData(balances);
+  try {
+    // fetch and log balances
+    const balances = await fetchBalances(isPrivate);
+    if (isPrivate) console.table(balances, ['name']);
 
-  await updateTransactions(transactionUpdates);
-  await updateBalances(balanceUpdates);
-  await send(smsUpdates);
+    // transform and update with balances
+    const balanceUpdates = transformBalancesToUpdates(balances);
+    const smsUpdates = transformBalancesToSMSData(balances);
+    await updateBalances(balanceUpdates);
+    await send(smsUpdates);
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
 
   if (isPrivate)
     open(`https://docs.google.com/spreadsheets/d/${process.env.SHEETS_SHEET_ID}`);
