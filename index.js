@@ -28,6 +28,7 @@ const { send } = require('./lib/updaters/sms');
 
   // fetch, transform, and update transactions
   try {
+    console.info('Start fetching transactions!');
     const transactions = await fetchTransactions(isPrivate);
     const transactionUpdates = transformTransactionsToUpdates(transactions);
     await updateTransactions(transactionUpdates);
@@ -36,6 +37,8 @@ const { send } = require('./lib/updaters/sms');
   }
 
   try {
+    console.info('Start fetching balances!');
+
     // fetch and log balances
     const balances = await fetchBalances(isPrivate);
     if (isPrivate) console.table(balances, ['name']);
