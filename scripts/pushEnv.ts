@@ -26,7 +26,7 @@ const deleteCurrentEnvironmentVariables = async () => {
   const envVars = await (
     await fetch(
       `https://circleci.com/api/v1.1/project/github/${GITHUB_USERNAME}/${GITHUB_PROJECT}/envvar?circle-token=${CIRCLE_CI_TOKEN}`,
-      { method: 'get' },
+      { method: 'GET' },
     )
   ).json();
 
