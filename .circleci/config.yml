@@ -10,7 +10,7 @@ jobs:
           keys:
             - dependency-cache-{{ checksum "package-lock.json" }}
             - dependency-cache-
-      - run: npm install & npm install -g ts-node
+      - run: npm install
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
