@@ -14,9 +14,9 @@
   "license": "MIT",
   "scripts": {
     "format": "prettier --write './**/*.{js,json,css,yml,md}'",
-    "get": "node scripts/encryption/decryptSecret.js && node index.js --public",
-    "get-private": "node index.js",
-    "debug": "node --nolazy --inspect-brk=9229 index.js",
+    "get": "ts-node scripts/encryption/decryptSecret.ts && ts-node lib/index.ts --public",
+    "get-private": "ts-node lib/index.ts",
+    "debug": "ts-node --nolazy --inspect-brk=9229 lib/index.ts",
     "test-plaid": "node scripts/testPlaid.js",
     "test-sheets": "node scripts/testSheets.js",
     "token-plaid": "node scripts/plaidServer.js",
