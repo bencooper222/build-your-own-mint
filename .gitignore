@@ -10,3 +10,4 @@ node_modules
 
 # holds list of all accounts, probably shouldn't keep in public git repo
 accounts.secret.js
+lib/accounts.secret.ts
