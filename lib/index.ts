@@ -1,20 +1,18 @@
 require('dotenv').config();
-const open = require('open');
-const { fetchTransactions, fetchBalances } = require('./lib/fetch');
 
-const {
+import open from 'open';
+
+import { fetchTransactions, fetchBalances } from './fetch';
+
+import {
   transformTransactionsToUpdates,
   transformBalancesToUpdates,
   transformBalancesToSMSData,
-} = require('./lib/transform');
+} from './transform';
 
-const {
-  updateTransactions,
-  updateBalances,
-  getLastTransactionUpdateTime,
-} = require('./lib/updaters/gsheets');
+import { updateTransactions, updateBalances } from './updaters/gsheets';
 
-const { send } = require('./lib/updaters/sms');
+import { send } from './updaters/sms';
 
 (async () => {
   console.log('Starting Plaid retrieval and writing process');

@@ -21,7 +21,8 @@
     "test-sheets": "node scripts/testSheets.js",
     "token-plaid": "node scripts/plaidServer.js",
     "token-sheets": "node scripts/getSheetsToken.js",
-    "push-env": "ts-node scripts/pushEnv.ts"
+    "push-env": "ts-node scripts/pushEnv.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -39,6 +40,7 @@
     "twilio": "^3.40.0"
   },
   "devDependencies": {
+    "@types/node": "^13.9.1",
     "@types/node-fetch": "^2.5.5",
     "@types/openpgp": "^4.4.8",
     "prettier": "^1.19.1",

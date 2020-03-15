@@ -1,12 +1,10 @@
 require('dotenv').config();
 import * as openpgp from 'openpgp';
 import { readFileSync, writeFileSync } from 'fs';
+import { executable as toReadPath, encrypted as toWritePath } from './paths';
 
 const { ACCOUNTS_PASSWORD } = process.env;
 if (!ACCOUNTS_PASSWORD) throw new Error('No ACCOUNTS_PASSWORD available!');
-
-const toReadPath = './accounts.secret.js';
-const toWritePath = './accounts.public.txt';
 
 const privateAccountContents = readFileSync(toReadPath, {
   encoding: 'utf8',

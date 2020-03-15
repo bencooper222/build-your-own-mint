@@ -1,6 +1,13 @@
+interface SecretAccountMapping {
+  [key: string]: string;
+}
+
 // this is absolutely not safe for general use.
-class AccountMappingHolder {
-  constructor(baseObj) {
+export class AccountMappingHolder {
+  baseObj: SecretAccountMapping;
+  accessTracker: { [key: string]: number };
+
+  constructor(baseObj: SecretAccountMapping) {
     this.baseObj = baseObj;
     this.accessTracker = {};
 
@@ -9,10 +16,12 @@ class AccountMappingHolder {
     }
   }
 
-  get(key) {
+  get(key: string) {
     this.accessTracker[key]++;
     const rtn = this.baseObj[key];
-    return rtn == null ? -1 : rtn;
+
+    // this will be used to index the alphabet - just need a non alphabetic character
+    return rtn == null ? '1' : rtn;
   }
 
   getUncalledKeys() {
@@ -23,5 +32,3 @@ class AccountMappingHolder {
       .map(([key]) => [key, this.baseObj[key]]);
   }
 }
-
-module.exports = { AccountMappingHolder };

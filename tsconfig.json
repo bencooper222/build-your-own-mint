@@ -2,8 +2,10 @@
   "compilerOptions": {
     "strict": true,
     "noEmit": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "lib": ["ESNext"]
   },
   "include": ["lib/**/*.ts", "scripts/**/*.ts"],
-  "exclude": ["node_modules/**"]
+  "exclude": ["node_modules/"]
 }
