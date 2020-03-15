@@ -1,26 +1,50 @@
+defaults: &defaults
+  docker:
+    - image: 'circleci/node:13'
+  working_directory: ~/project/build-your-own-mint
+
 version: 2
 jobs:
-  build:
-    docker:
-      - image: circleci/node:12
-    working_directory: ~/repo
+  install:
+    <<: *defaults
     steps:
       - checkout
       - restore_cache:
           keys:
             - dependency-cache-{{ checksum "package-lock.json" }}
-            - dependency-cache-
       - run: npm install
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - build-your-own-mint
+
+  build:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/project
       - run: npm run get
+  typecheck:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run: npm run typecheck
 workflows:
   version: 2
   test:
     jobs:
-      - build
+      - install
+      - typecheck:
+          requires:
+            - install
+      - build:
+          requires:
+            - install
   nightly:
     triggers:
       - schedule:
@@ -31,4 +55,7 @@ workflows:
               only:
                 - master
     jobs:
-      - build
+      - install
+      - build:
+          requires:
+            - install
