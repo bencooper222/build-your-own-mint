@@ -35,8 +35,8 @@
     "moment": "^2.24.0",
     "open": "^6.4.0",
     "openpgp": "^4.10.1",
-    "plaid": "^4.8.0",
-    "twilio": "^3.40.0"
+    "plaid": "^4.9.0",
+    "twilio": "^3.41.1"
   },
   "devDependencies": {
     "prettier": "^1.19.1"
