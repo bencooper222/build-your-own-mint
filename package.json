@@ -21,7 +21,7 @@
     "debug": "ts-node --nolazy --inspect-brk=9229 lib/index.ts",
     "test-plaid": "node scripts/testPlaid.js",
     "test-sheets": "node scripts/testSheets.js",
-    "token-plaid": "node scripts/plaidServer.js",
+    "token-plaid": "ts-node scripts/plaidServer.ts",
     "token-sheets": "node scripts/getSheetsToken.js",
     "push-env": "ts-node scripts/pushEnv.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"
@@ -42,7 +42,7 @@
     "twilio": "^3.41.1"
   },
   "devDependencies": {
-    "@types/node": "^13.9.3",
+    "@types/node": "^13.9.6",
     "@types/node-fetch": "^2.5.5",
     "@types/openpgp": "^4.4.8",
     "prettier": "^1.19.1",
