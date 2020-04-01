@@ -34,12 +34,21 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run: npm run typecheck
+  lint:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run: npm run lint
 workflows:
   version: 2
   test:
     jobs:
       - install
       - typecheck:
+          requires:
+            - install
+      - lint:
           requires:
             - install
       - build:
