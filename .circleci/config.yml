@@ -22,7 +22,7 @@ jobs:
           paths:
             - build-your-own-mint
 
-  build:
+  get:
     <<: *defaults
     steps:
       - attach_workspace:
@@ -51,7 +51,7 @@ workflows:
       - lint:
           requires:
             - install
-      - build:
+      - get:
           requires:
             - install
   nightly:
@@ -65,6 +65,6 @@ workflows:
                 - master
     jobs:
       - install
-      - build:
+      - get:
           requires:
             - install
