@@ -20,7 +20,6 @@ import {
 import { inspect } from 'util';
 import { resolve } from 'path';
 import moment = require('moment');
-
 import express, { Response } from 'express';
 import bodyParser from 'body-parser';
 

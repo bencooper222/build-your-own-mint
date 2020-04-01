@@ -1,5 +1,4 @@
 import moment = require('moment');
-
 import { hostname } from 'os';
 import currency from 'currency.js';
 
@@ -28,7 +27,7 @@ export const transformTransactionsToUpdates = (
     .format();
 
   return transactions
-    .sort((a, b) => moment(b.date) - moment(a.date))
+    .sort((a, b) => moment(b.date).valueOf() - moment(a.date).valueOf())
     .flatMap(({ date, account, name, amount, type, category }, idx) => {
       if (category == null) category = [];
       const arrayTransaction = [date, account, name, amount, type]; // establish order of transaction properties
@@ -56,11 +55,11 @@ export const transformTransactionsToUpdates = (
 
 export interface BalanceSheetUpdate {
   range: string;
-  values: string[][];
+  values: (string | number)[][];
 }
 
 export const transformBalancesToUpdates = (balances: MyBalance[]): BalanceSheetUpdate => {
-  const rtn = {
+  const rtn: BalanceSheetUpdate = {
     range: `${SHEET_NAMES.BALANCES}!A1:${ALPHABET[balances.length + 3]}1`,
     values: [
       [
@@ -80,10 +79,13 @@ export const transformBalancesToUpdates = (balances: MyBalance[]): BalanceSheetU
     if (idx === -1) throw new Error('CANNOT FIND THIS ACCOUNT IN MAPPING');
 
     rtn.values[0][idx] =
-      account.type === 'depository' ? Number(account.balance) : -Number(account.balance);
+      account.type === 'depository'
+        ? Number(account.balance).toString()
+        : -Number(account.balance).toString();
 
-    if (rtn.values[0][idx] > 0) have += rtn.values[0][idx];
-    else owed += rtn.values[0][idx];
+    // prior line guarantees they'll be numbers
+    if (rtn.values[0][idx] > 0) have += rtn.values[0][idx] as number;
+    else owed += rtn.values[0][idx] as number;
   });
 
   // used to previously have unused accounts be marked as zero. Now just let the series fall off.

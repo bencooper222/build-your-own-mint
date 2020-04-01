@@ -44,8 +44,7 @@ export const updateBalances = async (updateObject: BalanceSheetUpdate) => {
 
       requestBody: {
         majorDimension: 'ROWS',
-        range: updateObject.range,
-        values: updateObject.values,
+        ...updateObject,
 
         // data: updates.map(p => ({
         //   range: p.range,

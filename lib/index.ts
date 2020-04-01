@@ -1,17 +1,13 @@
 require('dotenv').config();
 
 import open from 'open';
-
 import { fetchTransactions, fetchBalances } from './fetch';
-
 import {
   transformTransactionsToUpdates,
   transformBalancesToUpdates,
   transformBalancesToSMSData,
 } from './transform';
-
 import { updateTransactions, updateBalances } from './updaters/gsheets';
-
 import { send } from './updaters/sms';
 
 (async () => {

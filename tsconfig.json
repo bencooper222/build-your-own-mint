@@ -4,6 +4,7 @@
     "noEmit": true,
     "strictNullChecks": true,
     "esModuleInterop": true,
+    "moduleResolution": "node",
     "lib": ["ESNext"]
   },
   "include": ["lib/**/*.ts", "scripts/**/*.ts"],
