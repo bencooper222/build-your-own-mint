@@ -1,3 +1,4 @@
+/* eslint-disable */
 require('dotenv').config();
 
 const account = process.argv[2];
@@ -45,7 +46,7 @@ app.get('/', (req, res, next) => {
 
 const APP_PORT = 8080;
 let PUBLIC_TOKEN = null;
-let ACCESS_TOKEN: string = '';
+let ACCESS_TOKEN = '';
 let ITEM_ID = null;
 
 function saveAccessToken(token: string) {
@@ -86,10 +87,10 @@ app.post('/get_access_token', function(request, response, next) {
 // https://plaid.com/docs/#transactions
 app.get('/transactions', function(request, response, next) {
   // Pull transactions for the Item for the last 30 days
-  var startDate = moment()
+  const startDate = moment()
     .subtract(30, 'days')
     .format('YYYY-MM-DD');
-  var endDate = moment().format('YYYY-MM-DD');
+  const endDate = moment().format('YYYY-MM-DD');
   client.getTransactions(
     ACCESS_TOKEN,
     startDate,
@@ -188,12 +189,12 @@ app.get('/auth', function(request, response, next) {
 app.get('/assets', function(request, response, next) {
   // You can specify up to two years of transaction history for an Asset
   // Report.
-  var daysRequested = 10;
+  const daysRequested = 10;
 
   // The `options` object allows you to specify a webhook for Asset Report
   // generation, as well as information that you want included in the Asset
   // Report. All fields are optional.
-  var options = {
+  const options = {
     client_report_id: 'Custom Report ID #123',
     // webhook: 'https://your-domain.tld/plaid-webhook',
     user: {
@@ -218,7 +219,7 @@ app.get('/assets', function(request, response, next) {
     }
     prettyPrintResponse(assetReportCreateResponse);
 
-    var assetReportToken = assetReportCreateResponse.asset_report_token;
+    const assetReportToken = assetReportCreateResponse.asset_report_token;
     respondWithAssetReport(20, assetReportToken, client, response);
   });
 });
@@ -241,7 +242,7 @@ app.get('/item', function(request, response, next) {
       instRes: GetInstitutionByIdResponse<Institution>,
     ) {
       if (err != null) {
-        var msg = 'Unable to pull institution information from the Plaid API.';
+        const msg = 'Unable to pull institution information from the Plaid API.';
         console.log(msg + '\n' + JSON.stringify(error));
         return response.json({
           error: msg,
@@ -261,7 +262,7 @@ app.listen(APP_PORT, function() {
   console.log(`Server started at http://localhost:${APP_PORT}`);
 });
 
-var prettyPrintResponse = (response: Object) => {
+var prettyPrintResponse = (response: Record<string, any>) => {
   console.log(inspect(response, { colors: true, depth: 4 }));
 };
 
@@ -270,7 +271,7 @@ var prettyPrintResponse = (response: Object) => {
 // webhook in the `options` object in your `/asset_report/create` request to be
 // notified when the Asset Report is finished being generated.
 var respondWithAssetReport = (
-  numRetriesRemaining: Number,
+  numRetriesRemaining: number,
   assetReportToken: string,
   client: PlaidClient,
   response: Response,

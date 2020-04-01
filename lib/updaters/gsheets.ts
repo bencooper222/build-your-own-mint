@@ -6,14 +6,14 @@ import { BalanceSheetUpdate, TransactionSheetUpdate } from '../transform';
 
 oAuth2Client.setCredentials({
   access_token: process.env.SHEETS_ACCESS_TOKEN,
+  expiry_date: Number(process.env.SHEETS_EXPIRY_DATE),
   refresh_token: process.env.SHEETS_REFRESH_TOKEN,
   token_type: process.env.SHEETS_TOKEN_TYPE,
-  expiry_date: Number(process.env.SHEETS_EXPIRY_DATE),
 });
 
 const sheets = google.sheets({
-  version: 'v4',
   auth: oAuth2Client,
+  version: 'v4',
 });
 
 export const updateTransactions = async (updates: TransactionSheetUpdate[]) => {
@@ -21,14 +21,14 @@ export const updateTransactions = async (updates: TransactionSheetUpdate[]) => {
     const {
       data: { totalUpdatedCells },
     } = await sheets.spreadsheets.values.batchUpdate({
-      spreadsheetId: process.env.SHEETS_SHEET_ID,
       requestBody: {
-        valueInputOption: 'USER_ENTERED',
         data: updates.map(p => ({
           range: p.range,
           values: [[p.value]],
         })),
+        valueInputOption: 'USER_ENTERED',
       },
+      spreadsheetId: process.env.SHEETS_SHEET_ID,
     });
 
     console.log(`Success! ${totalUpdatedCells} transation cells updated.`);
@@ -40,14 +40,12 @@ export const updateTransactions = async (updates: TransactionSheetUpdate[]) => {
 export const updateBalances = async (updateObject: BalanceSheetUpdate) => {
   try {
     const { data } = await sheets.spreadsheets.values.append({
-      spreadsheetId: process.env.SHEETS_SHEET_ID,
-
-      valueInputOption: `USER_ENTERED`,
       range: updateObject.range,
+
       requestBody: {
+        majorDimension: 'ROWS',
         range: updateObject.range,
         values: updateObject.values,
-        majorDimension: 'ROWS',
 
         // data: updates.map(p => ({
         //   range: p.range,
@@ -55,6 +53,8 @@ export const updateBalances = async (updateObject: BalanceSheetUpdate) => {
         //   values: [[p.value]],
         // })),
       },
+      spreadsheetId: process.env.SHEETS_SHEET_ID,
+      valueInputOption: `USER_ENTERED`,
     });
     console.log(`Success! ${data.updates?.updatedCells} balances cells updated.`);
   } catch (err) {
@@ -66,8 +66,8 @@ export const getLastTransactionUpdateTime = async () => {
   const {
     data: { values },
   } = await sheets.spreadsheets.values.get({
-    spreadsheetId: process.env.SHEETS_SHEET_ID,
     range: 'transactions!k2:k',
+    spreadsheetId: process.env.SHEETS_SHEET_ID,
   });
 
   if (values == undefined) throw new Error('Transaction date column is empty');

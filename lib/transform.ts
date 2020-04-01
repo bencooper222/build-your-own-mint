@@ -1,4 +1,4 @@
-const moment = require('moment');
+import moment = require('moment');
 
 import { hostname } from 'os';
 import currency from 'currency.js';
@@ -8,8 +8,8 @@ import { AccountMappingHolder } from './helpers';
 import { MyTransaction, MyBalance } from './fetch';
 
 const SHEET_NAMES = {
-  TRANSACTIONS: 'transactions',
   BALANCES: 'balances',
+  TRANSACTIONS: 'transactions',
 };
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; // column locations
 
@@ -112,15 +112,15 @@ export const transformBalancesToSMSData = (balances: MyBalance[]): SMSUpdate => 
     },
     {
       checking: currency(0, { separator: '' }),
-      saving: currency(0, { separator: '' }),
       debt: currency(0, { separator: '' }),
+      saving: currency(0, { separator: '' }),
     },
   );
 
   return {
     checking: amounts.checking.format(),
-    saving: amounts.saving.format(),
     debt: amounts.debt.format(),
+    saving: amounts.saving.format(),
   };
 };
 

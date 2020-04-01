@@ -11,7 +11,7 @@ export class AccountMappingHolder {
     this.baseObj = baseObj;
     this.accessTracker = {};
 
-    for (let [key] of Object.entries(baseObj)) {
+    for (const [key] of Object.entries(baseObj)) {
       this.accessTracker[key] = 0;
     }
   }

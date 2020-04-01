@@ -12,9 +12,9 @@ const privateAccountContents = readFileSync(toReadPath, {
 
 openpgp
   .encrypt({
+    armor: true,
     message: openpgp.message.fromText(privateAccountContents),
     passwords: [ACCOUNTS_PASSWORD],
-    armor: true,
   })
   .then(ciphertext => {
     const encrypted = ciphertext.data; // get raw encrypted packets as Uint8Array

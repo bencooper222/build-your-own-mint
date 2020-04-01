@@ -62,7 +62,7 @@ export const fetchTransactions = async (isPrivate = true): Promise<MyTransaction
 
             // when we fail to match accounts
             if (matchedAccount == undefined)
-              matchedAccount = { official_name: 'unmatched', name: 'unmatched' };
+              matchedAccount = { name: 'unmatched', official_name: 'unmatched' };
 
             return {
               ...transaction,
@@ -76,7 +76,7 @@ export const fetchTransactions = async (isPrivate = true): Promise<MyTransaction
         .catch(err => {
           throw new Error(
             'Fetching transactions failed:\n' +
-              JSON.stringify({ err, account: isPrivate ? account : 'PRIVATE' }),
+              JSON.stringify({ account: isPrivate ? account : 'PRIVATE', err }),
           );
         });
     }),
@@ -86,11 +86,11 @@ export const fetchTransactions = async (isPrivate = true): Promise<MyTransaction
 
   return rawTransactions.flatMap(({ transactions }) =>
     transactions.map(({ name, date, amount, category, account, transaction_type }) => ({
-      name,
-      date,
+      account,
       amount: -Number(amount),
       category,
-      account,
+      date,
+      name,
       type: transaction_type,
     })),
   );
@@ -106,7 +106,7 @@ export interface MyBalance {
 export const fetchBalances = async (isPrivate = true): Promise<MyBalance[]> => {
   const rawBalances = [];
   const failures = [];
-  for (let { account, token } of plaidAccountTokens) {
+  for (const { account, token } of plaidAccountTokens) {
     try {
       rawBalances.push(await client.getBalance(token));
     } catch (err) {
@@ -119,10 +119,10 @@ export const fetchBalances = async (isPrivate = true): Promise<MyBalance[]> => {
 
   return rawBalances.flatMap(({ accounts }) =>
     accounts.map(({ balances, official_name, name, type, subtype }) => ({
-      name: (official_name == null ? name : official_name) as string,
       balance: balances.current,
-      type,
+      name: (official_name == null ? name : official_name) as string,
       subtype,
+      type,
     })),
   );
 };

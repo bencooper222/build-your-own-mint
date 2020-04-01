@@ -30,7 +30,7 @@ const deleteCurrentEnvironmentVariables = async () => {
     )
   ).json();
 
-  for (let { name, value } of envVars) {
+  for (const { name, value } of envVars) {
     try {
       await fetch(
         `https://circleci.com/api/v1.1/project/github/${GITHUB_USERNAME}/${GITHUB_PROJECT}/envvar/${name}?circle-token=${CIRCLE_CI_TOKEN}`,
@@ -52,9 +52,9 @@ const updateSingleToken = async (nameValToken: NameValPair) => {
         await fetch(
           `https://circleci.com/api/v1.1/project/github/${GITHUB_USERNAME}/${GITHUB_PROJECT}/envvar?circle-token=${CIRCLE_CI_TOKEN}`,
           {
-            method: 'post',
             body: JSON.stringify(nameValToken),
             headers: { 'Content-Type': 'application/json' },
+            method: 'post',
           },
         ).then(res => res.json()),
       ),
@@ -68,14 +68,14 @@ const syncAllVariables = async () => {
   const envVars = dotenvParse(readFileSync(envPath));
 
   // don't sync certain variables
-  for (let key in envVars) if (filteredVariables.includes(key)) delete envVars[key];
+  for (const key in envVars) if (filteredVariables.includes(key)) delete envVars[key];
 
   // converts to an array of name-value pairs that we can send to circleci
   const arrayOfNameValPairs: NameValPair[] = Object.entries(
     envVars,
   ).map(([name, value]) => ({ name, value }));
 
-  for (let pair of arrayOfNameValPairs) {
+  for (const pair of arrayOfNameValPairs) {
     await updateSingleToken(pair);
   }
 };

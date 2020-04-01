@@ -13,7 +13,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "format": "prettier --write './**/*.{js,json,css,yml,md}'",
+    "lint": "eslint --fix --ext .ts lib/ scripts/",
     "get": "ts-node lib/index.ts --public",
     "decrypt": "ts-node scripts/encryption/decryptSecret.ts",
     "encrypt": "ts-node scripts/encryption/encryptSecret.ts",
@@ -45,6 +45,12 @@
     "@types/node": "^13.9.8",
     "@types/node-fetch": "^2.5.5",
     "@types/openpgp": "^4.4.9",
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-sort-keys-fix": "^1.1.0",
     "prettier": "^1.19.1",
     "ts-node": "^8.8.1",
     "typescript": "^3.8.3"

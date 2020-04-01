@@ -1,8 +1,7 @@
 import twilio from 'twilio';
 import { SMSUpdate } from '../transform';
+import fetch from 'node-fetch';
 
-const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-const fetch = require('node-fetch');
 const {
   CIRCLE_PROJECT_USERNAME,
   CIRCLE_PROJECT_REPONAME,
@@ -11,7 +10,11 @@ const {
   ENABLE_SMS,
   USER_PHONE_NUMBER,
   TWILIO_PHONE_NUMBER,
+  TWILIO_ACCOUNT_SID,
+  TWILIO_AUTH_TOKEN,
 } = process.env;
+
+const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
 // get workflow type
 const getWorkflowType = async () => {
@@ -47,8 +50,8 @@ export const send = async (updateObject: SMSUpdate) => {
           Number(updateObject.saving)} in assets ($${
           updateObject.checking
         } of that is in checkings accounts) but $${updateObject.debt} in debt.`,
-        to: USER_PHONE_NUMBER, // Text this number
-        from: TWILIO_PHONE_NUMBER, // From a valid Twilio number
+        from: TWILIO_PHONE_NUMBER, // Text this number
+        to: USER_PHONE_NUMBER, // From a valid Twilio number
       })
       .then(message => console.log(`Texting successful: ${message.sid}`))
       .catch(err => {

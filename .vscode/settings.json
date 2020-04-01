@@ -1,5 +1,7 @@
 {
-  "javascript.implicitProjectConfig.checkJs": true,
   "deepscan.enable": true,
-  "deepscan.ignorePatterns": ["node_modules"]
+  "deepscan.ignorePatterns": ["node_modules"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }
