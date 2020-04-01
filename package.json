@@ -13,8 +13,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "lint": "eslint --fix --ext .ts lib/ scripts/",
-    "lint-fix": "eslint --ext .ts lib/ scripts/",
+    "lint": "eslint --ext .ts lib/ scripts/",
+    "lint-fix": "eslint --fix --ext .ts lib/ scripts/",
     "get": "ts-node lib/index.ts --public",
     "decrypt": "ts-node scripts/encryption/decryptSecret.ts",
     "encrypt": "ts-node scripts/encryption/encryptSecret.ts",
