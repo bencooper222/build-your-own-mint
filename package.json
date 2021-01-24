@@ -40,7 +40,7 @@
     "open": "^6.4.0",
     "openpgp": "^4.10.8",
     "plaid": "^4.10.0",
-    "twilio": "^3.50.0"
+    "twilio": "^3.55.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.11",
