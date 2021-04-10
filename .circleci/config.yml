@@ -1,6 +1,6 @@
 defaults: &defaults
   docker:
-    - image: 'circleci/node:13'
+    - image: 'circleci/node:14'
   working_directory: ~/project/build-your-own-mint
 
 version: 2
