@@ -236,8 +236,9 @@ app.get('/item', function(request, response) {
         error: error,
       });
     }
+
     // Also pull information about the institution
-    client.getInstitutionById(itemResponse.item.institution_id, function(
+    client.getInstitutionById(itemResponse.item.institution_id, ['US'], {}, function(
       err: Error,
       instRes: GetInstitutionByIdResponse<Institution>,
     ) {
