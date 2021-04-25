@@ -48,7 +48,6 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.render(resolve(__dirname, 'plaid.ejs'), {
     PLAID_ACCOUNT: account,
-    PLAID_PUBLIC_KEY: process.env.PLAID_PUBLIC_KEY,
   });
 });
 

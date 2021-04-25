@@ -20,7 +20,6 @@ First things first - rename `.env.sample` to `.env`. Variables in this file will
 
   - `PLAID_CLIENT_ID`
   - `PLAID_SECRET`
-  - `PLAID_PUBLIC_KEY`
 
 - Now you need to connect to your financial institutions to generate access tokens.
 
