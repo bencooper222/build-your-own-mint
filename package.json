@@ -38,7 +38,7 @@
     "moment": "^2.29.1",
     "open": "^6.4.0",
     "openpgp": "^4.10.10",
-    "plaid": "^4.10.0",
+    "plaid": "^8.2.1",
     "twilio": "^3.55.0"
   },
   "devDependencies": {
@@ -55,8 +55,5 @@
     "prettier": "^1.19.1",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
-  },
-  "volta": {
-    "node": "14.16.1"
   }
 }
