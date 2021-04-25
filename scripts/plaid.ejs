@@ -171,23 +171,29 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha512-SFaNb3xC08k/Wf6CRM1J+O/vv4YWyrPBSdy0o+1nqKzf+uLrIBnaeo8aYoAAOd31nMNHwX8zwVwTMbbCJjA8Kg==" crossorigin="anonymous"></script>
   <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
   <script>
-  (function($) {
+const fetchLinkToken = async () => {
+  const response = await fetch('/create_link_token', { method: 'POST' });
+  const responseJSON = await response.json();
+  return responseJSON.linkToken;
+};
+
+const main = async () => {
   const products = ['transactions'];
 
   const handler = Plaid.create({
     apiVersion: 'v2',
     clientName: 'Plaid Quickstart',
     env: 'development',
-    key: '<%= PLAID_PUBLIC_KEY %>',
+    token: await fetchLinkToken(),
     // webhook: 'https://your-domain.tld/plaid-webhook',
-    onSuccess: function(public_token) {
+    onSuccess: function (public_token) {
       $.post(
         '/get_access_token',
         {
           public_token: public_token,
         },
-        function(data) {
-          $('#container').fadeOut('fast', function() {
+        function (data) {
+          $('#container').fadeOut('fast', function () {
             $('#item_id').text(data.item_id);
             $('#access_token').text(data.access_token);
             $('#intro').hide();
@@ -206,8 +212,8 @@
       {
         access_token: accessToken,
       },
-      function(data) {
-        $('#container').fadeOut('fast', function() {
+      function (data) {
+        $('#container').fadeOut('fast', function () {
           $('#item_id').text(data.item_id);
           $('#access_token').text(accessToken);
           $('#intro').hide();
@@ -217,16 +223,16 @@
     );
   }
 
-  $('#link-btn').on('click', function(e) {
+  $('#link-btn').on('click', function (e) {
     handler.open();
   });
 
-  $('#get-accounts-btn').on('click', function(e) {
-    $.get('/accounts', function(data) {
-      $('#get-accounts-data').slideUp(function() {
+  $('#get-accounts-btn').on('click', function (e) {
+    $.get('/accounts', function (data) {
+      $('#get-accounts-data').slideUp(function () {
         let html =
           '<tr><td><strong>Name</strong></td><td><strong>Balances</strong></td><td><strong>Subtype</strong></td><td><strong>Mask</strong></td></tr>';
-        data.accounts.accounts.forEach(function(account, idx) {
+        data.accounts.accounts.forEach(function (account, idx) {
           html += '<tr>';
           html += '<td>' + account.name + '</td>';
           html +=
@@ -247,9 +253,9 @@
     });
   });
 
-  $('#get-auth-btn').on('click', function(e) {
-    $.get('/auth', function(data) {
-      $('#get-auth-data').slideUp(function() {
+  $('#get-auth-btn').on('click', function (e) {
+    $.get('/auth', function (data) {
+      $('#get-auth-data').slideUp(function () {
         const authData = data.auth;
         const isAch = authData.numbers.ach.length > 0;
         const routingLabel = isAch ? 'Routing #' : 'Institution and Branch #';
@@ -259,9 +265,9 @@
           routingLabel +
           '</strong></td></tr>';
         if (isAch) {
-          authData.numbers.ach.forEach(function(achNumbers, idx) {
+          authData.numbers.ach.forEach(function (achNumbers, idx) {
             // Find the account associated with this set of account and routing numbers
-            const account = authData.accounts.filter(function(a) {
+            const account = authData.accounts.filter(function (a) {
               return a.account_id == achNumbers.account_id;
             })[0];
             html += '<tr>';
@@ -277,9 +283,9 @@
             html += '</tr>';
           });
         } else {
-          authData.numbers.eft.forEach(function(eftNumber, idx) {
+          authData.numbers.eft.forEach(function (eftNumber, idx) {
             // Find the account associated with this set of account and routing numbers
-            const account = authData.accounts.filter(function(a) {
+            const account = authData.accounts.filter(function (a) {
               return a.account_id == eftNumber.account_id;
             })[0];
             html += '<tr>';
@@ -302,26 +308,26 @@
     });
   });
 
-  $('#get-identity-btn').on('click', function(e) {
-    $.get('/identity', function(data) {
-      $('#get-identity-data').slideUp(function() {
+  $('#get-identity-btn').on('click', function (e) {
+    $.get('/identity', function (data) {
+      $('#get-identity-data').slideUp(function () {
         const identityData = data.identity.identity;
         let html =
           '<tr class="response-row response-row--is-identity"><td><strong>Names</strong></td><td><strong>Emails</strong></td><td><strong>Phone numbers</strong></td><td><strong>Addresses</strong></td></tr><tr class="response-row response-row--is-identity">';
         html += '<td>';
-        identityData.names.forEach(function(name, idx) {
+        identityData.names.forEach(function (name, idx) {
           html += name + '<br />';
         });
         html += '</td><td>';
-        identityData.emails.forEach(function(email, idx) {
+        identityData.emails.forEach(function (email, idx) {
           html += email.data + '<br />';
         });
         html += '</td><td>';
-        identityData.phone_numbers.forEach(function(number, idx) {
+        identityData.phone_numbers.forEach(function (number, idx) {
           html += number.data + '<br />';
         });
         html += '</td><td>';
-        identityData.addresses.forEach(function(address, idx) {
+        identityData.addresses.forEach(function (address, idx) {
           html += address.data.street + '<br />';
           html += address.data.city + ', ' + address.data.state + ' ' + address.data.zip;
         });
@@ -334,9 +340,9 @@
     });
   });
 
-  $('#get-item-btn').on('click', function(e) {
-    $.get('/item', function(data) {
-      $('#get-item-data').slideUp(function() {
+  $('#get-item-btn').on('click', function (e) {
+    $.get('/item', function (data) {
+      $('#get-item-data').slideUp(function () {
         if (data.error)
           $(this)
             .html('<p>' + data.error + '</p>')
@@ -362,8 +368,8 @@
     });
   });
 
-  $('#get-transactions-btn').on('click', function(e) {
-    $.get('/transactions', function(data) {
+  $('#get-transactions-btn').on('click', function (e) {
+    $.get('/transactions', function (data) {
       if (data.error != null && data.error.error_code != null) {
         // Format the error
         let errorHtml =
@@ -386,18 +392,18 @@
             'transaction pull.</a></p></div>';
         }
         // Render the error
-        $('#get-transactions-data').slideUp(function() {
-          $(this).slideUp(function() {
+        $('#get-transactions-data').slideUp(function () {
+          $(this).slideUp(function () {
             $(this)
               .html(errorHtml)
               .slideDown();
           });
         });
       } else {
-        $('#get-transactions-data').slideUp(function() {
+        $('#get-transactions-data').slideUp(function () {
           let html =
             '<tr><td><strong>Name</strong></td><td><strong>Amount</strong></td><td><strong>Date</strong></td></tr>';
-          data.transactions.transactions.forEach(function(txn, idx) {
+          data.transactions.transactions.forEach(function (txn, idx) {
             html += '<tr>';
             html += '<td>' + txn.name + '</td>';
             html += '<td>$' + txn.amount + '</td>';
@@ -405,7 +411,7 @@
             html += '</tr>';
           });
 
-          $(this).slideUp(function() {
+          $(this).slideUp(function () {
             $(this)
               .html(html)
               .slideDown();
@@ -415,13 +421,13 @@
     });
   });
 
-  $('#get-balance-btn').on('click', function(e) {
-    $.get('/balance', function(data) {
-      $('#get-balance-data').slideUp(function() {
+  $('#get-balance-btn').on('click', function (e) {
+    $.get('/balance', function (data) {
+      $('#get-balance-data').slideUp(function () {
         const balanceData = data.balance;
         let html =
           '<tr><td><strong>Name</strong></td><td><strong>Balance</strong></td><td><strong>Subtype</strong></td><td><strong>Mask</strong></td></tr>';
-        balanceData.accounts.forEach(function(account, idx) {
+        balanceData.accounts.forEach(function (account, idx) {
           html += '<tr>';
           html += '<td>' + account.name + '</td>';
           html +=
@@ -441,13 +447,18 @@
       });
     });
   });
-})(jQuery);
+};
+
+main().catch(err => {
+  console.error(err);
+});
 
 function qs(key) {
   key = key.replace(/[*+?^$.\[\]{}()|\\\/]/g, '\\$&'); // escape RegEx meta chars
   const match = location.search.match(new RegExp('[?&]' + key + '=([^&]+)(&|$)'));
   return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
+
 
   </script>
 </body>
