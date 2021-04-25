@@ -23,9 +23,18 @@ import { resolve } from 'path';
 import moment = require('moment');
 import express, { Response } from 'express';
 import bodyParser from 'body-parser';
+import { log } from 'isomorphic-git';
 
 import client from '../lib/plaidClient';
 import saveEnv from './saveEnv';
+import * as fs from 'fs';
+
+// use current git commit as userId to uniquely identify req
+let gitCommit: string;
+
+log({ depth: 1, dir: './', fs }).then(res => {
+  gitCommit = res[0].commit.tree;
+});
 
 const app = express();
 app.use(express.static(resolve(__dirname)));
@@ -198,7 +207,7 @@ app.get('/assets', function(request, response) {
     client_report_id: 'Custom Report ID #123',
     // webhook: 'https://your-domain.tld/plaid-webhook',
     user: {
-      client_user_id: 'Custom User ID #456',
+      client_user_id: gitCommit,
       email: 'alice@example.com',
       first_name: 'Alice',
       last_name: 'Cranberry',
@@ -266,7 +275,7 @@ app.post('/create_link_token', async (req, res, next) => {
     language: 'en',
     products: ['transactions'],
     user: {
-      client_user_id: 'hello',
+      client_user_id: gitCommit,
     },
   });
 
