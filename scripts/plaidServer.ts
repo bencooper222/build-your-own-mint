@@ -266,7 +266,7 @@ app.get('/item', function(request, response) {
   });
 });
 
-app.post('/create_link_token', async (req, res, next) => {
+app.post('/create_link_token', async (req, res) => {
   const linkRes = await client.createLinkToken({
     client_name: 'bencooper222/build-your-own-mint',
     country_codes: ['US'],
