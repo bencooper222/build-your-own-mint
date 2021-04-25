@@ -28,7 +28,6 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "body-parser": "^1.19.0",
     "currency.js": "^1.2.2",
     "dotenv": "^8.0.0",
     "ejs": "^2.7.4",
