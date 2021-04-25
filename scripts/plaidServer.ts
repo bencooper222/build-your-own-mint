@@ -258,6 +258,20 @@ app.get('/item', function(request, response) {
   });
 });
 
+app.post('/create_link_token', async (req, res, next) => {
+  const linkRes = await client.createLinkToken({
+    client_name: 'bencooper222/build-your-own-mint',
+    products: ['transactions', 'balances'],
+    user: {
+      client_user_id: 'hello',
+    },
+  });
+
+  const linkToken = linkRes.link_token;
+
+  res.json({ linkToken });
+});
+
 app.listen(APP_PORT, function() {
   console.log(`Server started at http://localhost:${APP_PORT}`);
 });
