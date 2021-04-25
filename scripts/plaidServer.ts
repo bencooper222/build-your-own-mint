@@ -31,11 +31,11 @@ const app = express();
 app.use(express.static(resolve(__dirname)));
 app.set('view engine', 'ejs');
 app.use(
-  bodyParser.urlencoded({
+  express.urlencoded({
     extended: false,
   }),
 );
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.render(resolve(__dirname, 'plaid.ejs'), {
