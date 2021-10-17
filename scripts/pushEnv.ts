@@ -30,7 +30,7 @@ const deleteCurrentEnvironmentVariables = async (prevNumberEnvVars: number) => {
     )
   ).json();
 
-  if (envVars.length > prevNumberEnvVars && process.env.IGNORE_MORE_ENV_VARS !== '1')
+  if (envVars.length < prevNumberEnvVars && process.env.IGNORE_MORE_ENV_VARS !== '1')
     throw new Error(
       'Remote has more env vars than local, this is a no-op unless you set IGNORE_MORE_ENV_VARS=1',
     );
